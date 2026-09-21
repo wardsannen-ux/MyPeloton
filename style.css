@@ -1,0 +1,429 @@
+body {
+    margin: 0;
+    padding: 20px;
+    background-color: #111111;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    text-align: center;
+    color: #ff4fa3;
+    font-size: 48px;
+    margin: 10px 0 8px 0;
+    font-weight: bold;
+    text-shadow: 0 0 18px rgba(255, 79, 163, 0.25);
+}
+
+h2 {
+    color: #ffffff;
+    font-size: 22px;
+    margin-top: 10px;
+    margin-bottom: 18px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+p {
+    background-color: #1c1c1c;
+    padding: 18px;
+    margin: 10px 0;
+    border-radius: 12px;
+    font-size: 18px;
+}
+
+.tagline {
+    text-align: center;
+    color: #999999;
+    font-size: 15px;
+    margin-top: 0;
+    margin-bottom: 40px;
+    font-style: italic;
+    background: none;
+    padding: 0;
+}
+
+button {
+    display: block;
+    margin: 30px auto;
+    padding: 15px 25px;
+    background-color: #ff4fa3;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(255, 79, 163, 0.18);
+    transition: background-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #ff78b8;
+    box-shadow: 0 6px 20px rgba(255, 79, 163, 0.3);
+    transform: translateY(-1px);
+}
+
+/* Zoekbalk */
+
+#searchInput {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 14px 16px;
+    margin: 0 0 15px 0;
+    background-color: #1c1c1c;
+    color: white;
+    border: 1px solid #333333;
+    border-radius: 12px;
+    font-size: 16px;
+}
+
+#searchInput::placeholder {
+    color: #999999;
+}
+
+#searchInput:focus {
+    outline: none;
+    border-color: #ff4fa3;
+}
+
+/* Filterknoppen */
+
+.filter-buttons {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0 25px 0;
+}
+
+.filter-buttons button {
+    flex: 1;
+    margin: 0;
+    padding: 12px 10px;
+    font-size: 15px;
+}
+
+@media (max-width: 600px) {
+    .filter-buttons {
+        flex-direction: column;
+    }
+}
+
+/* Renners */
+
+.rider {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #181818;
+    padding: 14px 16px;
+    margin: 8px 0;
+    border-radius: 12px;
+    font-size: 18px;
+    min-height: 28px;
+    border: 1px solid #2a2a2a;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    position: relative;
+}
+
+.rider:hover {
+    border-color: #ff4fa3;
+    box-shadow: 0 0 12px rgba(255, 79, 163, 0.12);
+}
+
+/* Informatie binnen een renner */
+
+.rider-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    min-width: 0;
+}
+
+/* Sterren naast de renner */
+
+.rider-stars {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    width: 75px;
+    min-width: 75px;
+    flex-shrink: 0;
+    font-size: 17px;
+    line-height: 1;
+}
+
+.rider-stars .filled-star {
+    color: #ff4fa3;
+    text-shadow: 0 0 6px rgba(255, 79, 163, 0.25);
+}
+
+.rider-stars .empty-star {
+    color: #555555;
+}
+
+/* Naam */
+
+.rider-name {
+    flex: 1;
+    min-width: 0;
+    font-weight: 600;
+    color: #ffffff;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Prijs */
+
+.rider-price {
+    margin-left: auto;
+    color: #ff4fa3;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Menu knop */
+
+.rider .menu-button {
+    margin: 0 0 0 10px;
+    padding: 0 8px;
+    background: none;
+    color: white;
+    font-size: 24px;
+    border: none;
+    box-shadow: none;
+}
+
+.rider .menu-button:hover {
+    background: none;
+    color: #ff4fa3;
+    box-shadow: none;
+    transform: none;
+}
+
+/* Rennermenu */
+
+.rider-menu {
+    display: none;
+    position: absolute;
+    right: 10px;
+    top: 50px;
+    background-color: #181818;
+    border: 1px solid #333333;
+    border-radius: 10px;
+    padding: 5px;
+    z-index: 10;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+.rider-menu.show {
+    display: block;
+}
+
+.rider-menu button {
+    display: block;
+    width: 140px;
+    margin: 0;
+    padding: 10px;
+    background: none;
+    color: white;
+    text-align: left;
+    border-radius: 6px;
+    box-shadow: none;
+}
+
+.rider-menu button:hover {
+    background-color: #252525;
+    color: #ff4fa3;
+    box-shadow: none;
+    transform: none;
+}
+
+/* Sterren kiezen in het venster */
+
+.star-selector {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.star-selector button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    margin: 0;
+    padding: 0;
+    background-color: #242424;
+    color: #555555;
+    border: 1px solid #333333;
+    border-radius: 10px;
+    font-size: 25px;
+    box-shadow: none;
+    transition: all 0.2s;
+}
+
+.star-selector button:hover {
+    background-color: #2d2d2d;
+    color: #ff4fa3;
+    border-color: #ff4fa3;
+    transform: translateY(-1px);
+}
+
+.star-selector button.selected {
+    background-color: rgba(255, 79, 163, 0.12);
+    color: #ff4fa3;
+    border-color: #ff4fa3;
+    box-shadow: 0 0 10px rgba(255, 79, 163, 0.15);
+}
+
+/* Modal */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #181818;
+    width: 90%;
+    max-width: 400px;
+    padding: 25px;
+    border-radius: 16px;
+    box-sizing: border-box;
+    border: 1px solid #333333;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6);
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    color: #ff4fa3;
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 25px;
+    text-shadow: 0 0 12px rgba(255, 79, 163, 0.2);
+}
+
+.modal-content label {
+    display: block;
+    margin-top: 18px;
+    margin-bottom: 7px;
+    font-size: 16px;
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="number"] {
+    width: 100%;
+    padding: 12px;
+    box-sizing: border-box;
+    border: 1px solid #333333;
+    border-radius: 8px;
+    background-color: #111111;
+    color: white;
+    font-size: 16px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.modal-content input[type="text"]:focus,
+.modal-content input[type="number"]:focus {
+    outline: none;
+    border-color: #ff4fa3;
+    box-shadow: 0 0 10px rgba(255, 79, 163, 0.12);
+}
+
+.interest {
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+}
+
+.interest input {
+    width: 18px;
+    height: 18px;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.modal-buttons button {
+    flex: 1;
+    margin: 0;
+    box-shadow: none;
+}
+
+.modal-buttons button:first-child {
+    background-color: #2a2a2a;
+    color: #bbbbbb;
+}
+
+.modal-buttons button:first-child:hover {
+    background-color: #333333;
+    color: white;
+}
+
+/* Backup knoppen */
+
+#backupButton,
+#restoreButton {
+    display: inline-block;
+    margin: 5px;
+    padding: 8px 12px;
+    background-color: #1c1c1c;
+    color: #bbbbbb;
+    border: 1px solid #333333;
+    border-radius: 8px;
+    font-size: 14px;
+    box-shadow: none;
+}
+
+#backupButton:hover,
+#restoreButton:hover {
+    background-color: #252525;
+    color: #ff4fa3;
+    border-color: #ff4fa3;
+    box-shadow: none;
+    transform: none;
+}
+
+/* Mobiele weergave */
+
+@media (max-width: 600px) {
+    body {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 38px;
+    }
+
+    .rider {
+        padding: 12px;
+    }
+
+    .rider-stars {
+        width: 68px;
+        min-width: 68px;
+        font-size: 16px;
+    }
+
+    .rider-info {
+        gap: 7px;
+    }
+
+    .rider-name {
+        font-size: 16px;
+    }
+
+    .rider-price {
+        font-size: 16px;
+    }
+}

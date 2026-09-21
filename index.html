@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyPeloton</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h1>👑 MyPeloton</h1>
+<p class="tagline">My peloton, my kingdom.</p>
+
+    <h2>Mijn renners</h2>
+    <p id="emptyMessage" style="display: none;">
+    Nog geen renners toegevoegd.
+</p>
+<input type="text" id="searchInput" placeholder="Zoek een renner...">
+
+<div class="filter-buttons">
+<button id="starFilterButton">⭐ Alle sterren</button>
+    <button id="sortPriceButton">💶 Prijs: laag → hoog</button>
+</div>
+<button id="addButton">＋ Nieuwe renner</button>
+<button id="backupButton">💾 Backup maken</button>
+<button id="restoreButton">📂 Backup terugzetten</button>
+<input type="file" id="restoreInput" accept=".json" style="display: none;">
+<div id="addRiderModal" class="modal">
+    <div class="modal-content">
+        <h2>Nieuwe renner</h2>
+
+        <label>Naam</label>
+        <input type="text" id="riderName" placeholder="Naam van de renner">
+
+        <label>Prijs</label>
+        <input type="number" id="riderPrice" placeholder="Prijs">
+
+<label class="interest">Sterren</label>
+
+<div class="star-selector" id="starSelector">
+    <button type="button" data-stars="1">★</button>
+    <button type="button" data-stars="2">★</button>
+    <button type="button" data-stars="3">★</button>
+</div>
+
+        <div class="modal-buttons">
+            <button id="cancelButton">Annuleren</button>
+            <button id="saveButton">Opslaan</button>
+        </div>
+    </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
