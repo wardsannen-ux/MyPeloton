@@ -111,8 +111,8 @@ return matchesSearch && matchesStars;
     ridersToDisplay.forEach(function (rider) {
         const riderElement = document.createElement("div");
         riderElement.classList.add("rider");
-
-        const riderText = document.createElement("span");
+const riderText = document.createElement("div");
+riderText.classList.add("rider-info");
 
 const riderStarElement = document.createElement("span");
 riderStarElement.classList.add("rider-stars");
@@ -134,13 +134,16 @@ for (let i = 1; i <= 3; i++) {
         riderNameElement.textContent = rider.name;
 
         const riderPriceElement = document.createElement("span");
-        riderPriceElement.textContent = "€" + rider.price;
+if (rider.price) {
+    riderPriceElement.textContent = "€" + rider.price;
+} else {
+    riderPriceElement.textContent = "";
+}
 
-        riderText.appendChild(riderStarElement);
-        riderText.appendChild(riderNameElement);
-        riderText.appendChild(riderPriceElement);
+riderText.appendChild(riderStarElement);
+riderText.appendChild(riderNameElement);
 
-        const menuButton = document.createElement("button");
+const menuButton = document.createElement("button");
         menuButton.textContent = "⋯";
         menuButton.classList.add("menu-button");
 
@@ -184,9 +187,10 @@ for (let i = 1; i <= 3; i++) {
             menu.classList.toggle("show");
         });
 
-        riderElement.appendChild(riderText);
-        riderElement.appendChild(menuButton);
-        riderElement.appendChild(menu);
+riderElement.appendChild(riderText);
+riderElement.appendChild(riderPriceElement);
+riderElement.appendChild(menuButton);
+riderElement.appendChild(menu);
 
         document.body.insertBefore(riderElement, addButton);
     });
@@ -213,10 +217,10 @@ saveButton.addEventListener("click", function () {
     const name = riderName.value.trim();
     const price = riderPrice.value;
 
-    if (name === "" || price === "") {
-        alert("Vul de naam en prijs in.");
-        return;
-    }
+if (name === "") {
+    alert("Vul de naam in.");
+    return;
+}
 
     if (editingRider !== null) {
         editingRider.name = name;
