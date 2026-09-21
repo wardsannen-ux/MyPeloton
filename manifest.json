@@ -6,5 +6,11 @@
     "background_color": "#111111",
     "theme_color": "#ff4fa3",
     "description": "Mijn persoonlijke MyPeloton rennerselectie.",
-    "icons": []
+ "icons": [
+    {
+        "src": "icon.png",
+        "sizes": "1024x1024",
+        "type": "image/png"
+    }
+]
 }
