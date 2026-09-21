@@ -1,0 +1,10 @@
+{
+    "name": "MyPeloton",
+    "short_name": "MyPeloton",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#111111",
+    "theme_color": "#ff4fa3",
+    "description": "Mijn persoonlijke MyPeloton rennerselectie.",
+    "icons": []
+}
