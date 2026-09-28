@@ -67,11 +67,6 @@ button:hover {
     transform: translateY(-1px);
 }
 
-
-/* =========================================
-   ZOEKBALK
-========================================= */
-
 #searchInput {
     width: 100%;
     box-sizing: border-box;
@@ -92,11 +87,6 @@ button:hover {
     outline: none;
     border-color: #ff4fa3;
 }
-
-
-/* =========================================
-   FILTERS
-========================================= */
 
 .filter-buttons {
     display: flex;
@@ -128,10 +118,7 @@ button:hover {
     box-shadow: 0 0 0 2px rgba(255, 79, 163, 0.4);
 }
 
-
-/* =========================================
-   RENNERS
-========================================= */
+/* RENNERS */
 
 .rider {
     display: flex;
@@ -155,11 +142,6 @@ button:hover {
     box-shadow: 0 0 12px rgba(255, 79, 163, 0.12);
 }
 
-
-/* =========================================
-   INFORMATIE BINNEN RENNENR
-========================================= */
-
 .rider-info {
     display: grid;
     grid-template-columns: 75px 180px minmax(0, 1fr);
@@ -168,11 +150,6 @@ button:hover {
     flex: 1;
     min-width: 0;
 }
-
-
-/* =========================================
-   STERREN
-========================================= */
 
 .rider-stars {
     display: flex;
@@ -193,11 +170,6 @@ button:hover {
     color: #555555;
 }
 
-
-/* =========================================
-   NAAM
-========================================= */
-
 .rider-name {
     min-width: 0;
     font-weight: 600;
@@ -206,11 +178,6 @@ button:hover {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-
-
-/* =========================================
-   CATEGORIEËN
-========================================= */
 
 .rider-categories {
     display: flex;
@@ -234,11 +201,6 @@ button:hover {
     white-space: nowrap;
 }
 
-
-/* =========================================
-   PRIJS
-========================================= */
-
 .rider-price {
     margin-left: auto;
     margin-right: 10px;
@@ -246,11 +208,6 @@ button:hover {
     font-weight: 600;
     white-space: nowrap;
 }
-
-
-/* =========================================
-   MENU KNOP
-========================================= */
 
 .rider .menu-button {
     margin: 0 0 0 10px;
@@ -269,10 +226,7 @@ button:hover {
     transform: none;
 }
 
-
-/* =========================================
-   RENNERMENU
-========================================= */
+/* MENU */
 
 .rider-menu {
     display: none;
@@ -310,10 +264,7 @@ button:hover {
     transform: none;
 }
 
-
-/* =========================================
-   CATEGORIEËN KIEZEN
-========================================= */
+/* CATEGORIEËN KIEZEN */
 
 .category-selector {
     display: grid;
@@ -358,10 +309,7 @@ button:hover {
     color: #ff4fa3;
 }
 
-
-/* =========================================
-   STERREN KIEZEN
-========================================= */
+/* STERREN KIEZEN */
 
 .star-selector {
     display: flex;
@@ -400,10 +348,7 @@ button:hover {
     box-shadow: 0 0 10px rgba(255, 79, 163, 0.15);
 }
 
-
-/* =========================================
-   MODAL
-========================================= */
+/* MODAL */
 
 .modal {
     display: none;
@@ -476,11 +421,6 @@ button:hover {
     height: 18px;
 }
 
-
-/* =========================================
-   MODAL KNOPPEN
-========================================= */
-
 .modal-buttons {
     display: flex;
     gap: 10px;
@@ -503,10 +443,7 @@ button:hover {
     color: white;
 }
 
-
-/* =========================================
-   BACKUP KNOPPEN
-========================================= */
+/* BACKUP KNOPPEN */
 
 #backupButton,
 #restoreButton {
@@ -530,67 +467,143 @@ button:hover {
     transform: none;
 }
 
-
-/* =========================================
-   MOBIELE WEERGAVE
-========================================= */
+/* ========================= */
+/* MOBIELE VERSIE */
+/* ========================= */
 
 @media (max-width: 600px) {
 
     body {
-        padding: 15px;
+        padding: 12px;
     }
 
     h1 {
         font-size: 38px;
     }
 
+    .tagline {
+        margin-bottom: 30px;
+    }
+
     .filter-buttons {
         flex-direction: column;
+        gap: 8px;
     }
 
     .filter-buttons select {
         width: 100%;
+        min-height: 46px;
+        font-size: 15px;
     }
 
+    /* RENNERS OP GSM */
+
     .rider {
-        padding: 12px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto auto;
+        align-items: center;
+        column-gap: 8px;
+        padding: 12px 10px;
+        margin: 8px 0;
+        min-height: 58px;
     }
 
     .rider-info {
-        grid-template-columns:
-            68px
-            minmax(0, 1fr)
-            minmax(78px, auto);
-
-        gap: 7px;
+        display: grid;
+        grid-template-columns: 58px minmax(0, 1fr);
+        grid-template-rows: auto auto;
+        column-gap: 7px;
+        row-gap: 4px;
+        min-width: 0;
     }
 
     .rider-stars {
-        width: 68px;
-        min-width: 68px;
-        font-size: 16px;
+        grid-column: 1;
+        grid-row: 1 / span 2;
+        width: 58px;
+        min-width: 58px;
+        font-size: 14px;
+        align-self: center;
+        justify-content: flex-start;
     }
 
     .rider-name {
+        grid-column: 2;
+        grid-row: 1;
         font-size: 16px;
+        line-height: 18px;
     }
 
     .rider-categories {
-        gap: 4px;
+        grid-column: 2;
+        grid-row: 2;
+        gap: 3px;
+        min-width: 0;
     }
 
     .rider-category {
-        font-size: 10px;
-        padding: 4px 5px;
+        font-size: 9px;
+        padding: 3px 5px;
+        border-radius: 5px;
     }
 
     .rider-price {
-        font-size: 16px;
+        margin: 0;
+        font-size: 15px;
+        white-space: nowrap;
     }
+
+    .rider .menu-button {
+        margin: 0;
+        padding: 0 3px;
+        font-size: 23px;
+        width: 28px;
+    }
+
+    /* MENU OP GSM */
+
+    .rider-menu {
+        right: 8px;
+        top: 48px;
+    }
+
+    /* CATEGORIEËN IN MODAL */
 
     .category-selector {
         grid-template-columns: 1fr 1fr;
+        gap: 7px;
+    }
+
+    .category-option {
+        padding: 9px 7px;
+        font-size: 14px;
+    }
+
+    /* KNOPPEN */
+
+    #addButton {
+        width: 100%;
+        margin: 20px 0 12px 0;
+    }
+
+    #backupButton,
+    #restoreButton {
+        width: calc(50% - 7px);
+        box-sizing: border-box;
+        margin: 5px 2px;
+        text-align: center;
+    }
+
+    /* MODAL */
+
+    .modal-content {
+        width: calc(100% - 24px);
+        padding: 20px;
+        max-height: 92vh;
+    }
+
+    .modal-buttons {
+        gap: 8px;
     }
 
 }
