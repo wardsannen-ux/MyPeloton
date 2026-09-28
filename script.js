@@ -22,41 +22,82 @@ const slogans = [
     "Choose Your Champions."
 ];
 
-const randomSlogan = slogans[Math.floor(Math.random() * slogans.length)];
+const randomSlogan =
+    slogans[Math.floor(Math.random() * slogans.length)];
+
 document.querySelector(".tagline").textContent = randomSlogan;
 
 const modal = document.getElementById("addRiderModal");
 const cancelButton = document.getElementById("cancelButton");
 const saveButton = document.getElementById("saveButton");
+
 const searchInput = document.getElementById("searchInput");
 const riderName = document.getElementById("riderName");
 const riderPrice = document.getElementById("riderPrice");
-const starButtons = document.querySelectorAll("#starSelector button");
-const starFilterButton = document.getElementById("starFilterButton");
-const sortPriceButton = document.getElementById("sortPriceButton");
+
+const categoryCheckboxes =
+    document.querySelectorAll("#categorySelector input[type='checkbox']");
+
+const starButtons =
+    document.querySelectorAll("#starSelector button");
+
+const categoryFilter =
+    document.getElementById("categoryFilter");
+
+const starFilter =
+    document.getElementById("starFilter");
+
+const priceSort =
+    document.getElementById("priceSort");
 
 let selectedStars = 0;
 
-let riders = JSON.parse(localStorage.getItem("myPelotonRiders")) || [];
+let riders =
+    JSON.parse(localStorage.getItem("myPelotonRiders")) || [];
+
+
+/* =========================================
+   BESTAANDE RENNERS COMPATIBEL MAKEN
+========================================= */
 
 riders = riders.map(function (rider) {
-    if (typeof rider.stars === "number") {
-        return rider;
+
+    let categories = [];
+
+    if (Array.isArray(rider.categories)) {
+        categories = rider.categories;
+    } else if (rider.category) {
+        categories = [rider.category];
     }
 
     return {
         ...rider,
-        stars: rider.interesting ? 1 : 0
+
+        stars:
+            typeof rider.stars === "number"
+                ? rider.stars
+                : rider.interesting
+                ? 1
+                : 0,
+
+        categories: categories
     };
 });
 
+
 let editingRider = null;
-let starFilter = 0;
-let sortPriceAscending = true;
+
+
+/* =========================================
+   STERREN KIEZEN
+========================================= */
 
 starButtons.forEach(function (button) {
+
     button.addEventListener("click", function () {
-        const clickedStars = Number(button.dataset.stars);
+
+        const clickedStars =
+            Number(button.dataset.stars);
 
         if (selectedStars === clickedStars) {
             selectedStars = 0;
@@ -66,22 +107,68 @@ starButtons.forEach(function (button) {
 
         updateStarButtons();
     });
+
 });
 
+
 function updateStarButtons() {
+
     starButtons.forEach(function (starButton) {
-        const stars = Number(starButton.dataset.stars);
+
+        const stars =
+            Number(starButton.dataset.stars);
 
         if (stars <= selectedStars) {
             starButton.classList.add("selected");
         } else {
             starButton.classList.remove("selected");
         }
+
     });
+
 }
 
+
+/* =========================================
+   CATEGORIEËN KIEZEN
+========================================= */
+
+function getSelectedCategories() {
+
+    const selectedCategories = [];
+
+    categoryCheckboxes.forEach(function (checkbox) {
+
+        if (checkbox.checked) {
+            selectedCategories.push(checkbox.value);
+        }
+
+    });
+
+    return selectedCategories;
+}
+
+
+function setSelectedCategories(categories) {
+
+    categoryCheckboxes.forEach(function (checkbox) {
+
+        checkbox.checked =
+            categories.includes(checkbox.value);
+
+    });
+
+}
+
+
+/* =========================================
+   RENNERS TONEN
+========================================= */
+
 function displayRiders() {
-    const emptyMessage = document.getElementById("emptyMessage");
+
+    const emptyMessage =
+        document.getElementById("emptyMessage");
 
     if (riders.length === 0) {
         emptyMessage.style.display = "block";
@@ -89,259 +176,734 @@ function displayRiders() {
         emptyMessage.style.display = "none";
     }
 
-    document.querySelectorAll(".rider").forEach(function (rider) {
-        rider.remove();
-    });
 
-    const searchText = searchInput.value.toLowerCase();
+    document
+        .querySelectorAll(".rider")
+        .forEach(function (rider) {
+            rider.remove();
+        });
 
-    let ridersToDisplay = riders.filter(function (rider) {
-        const matchesSearch = rider.name.toLowerCase().includes(searchText);
-const matchesStars = starFilter === 0 || rider.stars === starFilter;
 
-return matchesSearch && matchesStars;
-    });
+    const searchText =
+        searchInput.value.toLowerCase();
 
-    ridersToDisplay.sort(function (a, b) {
-        return sortPriceAscending
-            ? Number(a.price) - Number(b.price)
-            : Number(b.price) - Number(a.price);
-    });
+    const selectedStarFilter =
+        Number(starFilter.value);
 
-    ridersToDisplay.forEach(function (rider) {
-        const riderElement = document.createElement("div");
-        riderElement.classList.add("rider");
-const riderText = document.createElement("div");
-riderText.classList.add("rider-info");
+    const selectedCategoryFilter =
+        categoryFilter.value;
 
-const riderStarElement = document.createElement("span");
-riderStarElement.classList.add("rider-stars");
-for (let i = 1; i <= 3; i++) {
-    const star = document.createElement("span");
 
-    if (i <= rider.stars) {
-        star.textContent = "★";
-        star.classList.add("filled-star");
-    } else {
-        star.textContent = "☆";
-        star.classList.add("empty-star");
+    let ridersToDisplay =
+        riders.filter(function (rider) {
+
+            const matchesSearch =
+                rider.name
+                    .toLowerCase()
+                    .includes(searchText);
+
+
+            const matchesStars =
+                selectedStarFilter === 0 ||
+                rider.stars === selectedStarFilter;
+
+
+            const matchesCategory =
+                selectedCategoryFilter === "" ||
+                rider.categories.includes(
+                    selectedCategoryFilter
+                );
+
+
+            return (
+                matchesSearch &&
+                matchesStars &&
+                matchesCategory
+            );
+
+        });
+
+
+    /* =========================================
+       PRIJS SORTEREN
+    ========================================= */
+
+    if (priceSort.value === "low") {
+
+        ridersToDisplay.sort(function (a, b) {
+
+            return (
+                Number(a.price || 0) -
+                Number(b.price || 0)
+            );
+
+        });
+
     }
 
-    riderStarElement.appendChild(star);
-}
 
-        const riderNameElement = document.createElement("span");
-        riderNameElement.textContent = rider.name;
+    if (priceSort.value === "high") {
 
-        const riderPriceElement = document.createElement("span");
-if (rider.price) {
-    riderPriceElement.textContent = "€" + rider.price;
-} else {
-    riderPriceElement.textContent = "";
-}
+        ridersToDisplay.sort(function (a, b) {
 
-riderText.appendChild(riderStarElement);
-riderText.appendChild(riderNameElement);
+            return (
+                Number(b.price || 0) -
+                Number(a.price || 0)
+            );
 
-const menuButton = document.createElement("button");
+        });
+
+    }
+
+
+    /* =========================================
+       RENNERS OPBOUWEN
+    ========================================= */
+
+    ridersToDisplay.forEach(function (rider) {
+
+        const riderElement =
+            document.createElement("div");
+
+        riderElement.classList.add("rider");
+
+
+        /* Informatie links */
+
+        const riderText =
+            document.createElement("div");
+
+        riderText.classList.add("rider-info");
+
+
+        /* Sterren */
+
+        const riderStarElement =
+            document.createElement("span");
+
+        riderStarElement.classList.add(
+            "rider-stars"
+        );
+
+
+        for (let i = 1; i <= 3; i++) {
+
+            const star =
+                document.createElement("span");
+
+            if (i <= rider.stars) {
+
+                star.textContent = "★";
+
+                star.classList.add(
+                    "filled-star"
+                );
+
+            } else {
+
+                star.textContent = "☆";
+
+                star.classList.add(
+                    "empty-star"
+                );
+
+            }
+
+            riderStarElement.appendChild(star);
+        }
+
+
+        /* Naam */
+
+        const riderNameElement =
+            document.createElement("span");
+
+        riderNameElement.classList.add(
+            "rider-name"
+        );
+
+        riderNameElement.textContent =
+            rider.name;
+
+
+        /* Categorieën */
+
+        const riderCategoryElement =
+            document.createElement("div");
+
+        riderCategoryElement.classList.add(
+            "rider-categories"
+        );
+
+
+        rider.categories.forEach(function (category) {
+
+            const categoryElement =
+                document.createElement("span");
+
+            categoryElement.classList.add(
+                "rider-category"
+            );
+
+            categoryElement.textContent =
+                category;
+
+            riderCategoryElement.appendChild(
+                categoryElement
+            );
+
+        });
+
+
+        /* Prijs */
+
+        const riderPriceElement =
+            document.createElement("span");
+
+        riderPriceElement.classList.add(
+            "rider-price"
+        );
+
+
+        if (rider.price) {
+
+            riderPriceElement.textContent =
+                "€" + rider.price;
+
+        } else {
+
+            riderPriceElement.textContent = "";
+
+        }
+
+
+        riderText.appendChild(
+            riderStarElement
+        );
+
+        riderText.appendChild(
+            riderNameElement
+        );
+
+        riderText.appendChild(
+            riderCategoryElement
+        );
+
+
+        /* =========================================
+           MENU KNOP
+        ========================================= */
+
+        const menuButton =
+            document.createElement("button");
+
         menuButton.textContent = "⋯";
-        menuButton.classList.add("menu-button");
 
-        const menu = document.createElement("div");
-        menu.classList.add("rider-menu");
+        menuButton.classList.add(
+            "menu-button"
+        );
+
+
+        /* Rennermenu */
+
+        const menu =
+            document.createElement("div");
+
+        menu.classList.add(
+            "rider-menu"
+        );
+
 
         menu.innerHTML = `
             <button class="edit-button">Bewerken</button>
             <button class="delete-button">Verwijderen</button>
         `;
 
-        menu.querySelector(".delete-button").addEventListener("click", function () {
-            riders = riders.filter(function (r) {
-                return r !== rider;
-            });
 
-            localStorage.setItem("myPelotonRiders", JSON.stringify(riders));
+        /* Verwijderen */
 
-            displayRiders();
-        });
+        menu
+            .querySelector(".delete-button")
+            .addEventListener(
+                "click",
+                function () {
 
-        menu.querySelector(".edit-button").addEventListener("click", function () {
-            editingRider = rider;
+                    riders =
+                        riders.filter(function (r) {
 
-            riderName.value = rider.name;
-            riderPrice.value = rider.price;
+                            return r !== rider;
 
-            selectedStars = rider.stars || 0;
-            updateStarButtons();
+                        });
 
-            modal.style.display = "flex";
-        });
 
-        menuButton.addEventListener("click", function () {
-            document.querySelectorAll(".rider-menu").forEach(function (otherMenu) {
-                if (otherMenu !== menu) {
-                    otherMenu.classList.remove("show");
+                    localStorage.setItem(
+                        "myPelotonRiders",
+                        JSON.stringify(riders)
+                    );
+
+
+                    displayRiders();
+
                 }
-            });
+            );
 
-            menu.classList.toggle("show");
-        });
 
-riderElement.appendChild(riderText);
-riderElement.appendChild(riderPriceElement);
-riderElement.appendChild(menuButton);
-riderElement.appendChild(menu);
+        /* Bewerken */
 
-        document.body.insertBefore(riderElement, addButton);
+        menu
+            .querySelector(".edit-button")
+            .addEventListener(
+                "click",
+                function () {
+
+                    editingRider = rider;
+
+
+                    riderName.value =
+                        rider.name;
+
+                    riderPrice.value =
+                        rider.price || "";
+
+
+                    setSelectedCategories(
+                        rider.categories || []
+                    );
+
+
+                    selectedStars =
+                        rider.stars || 0;
+
+                    updateStarButtons();
+
+
+                    modal.style.display =
+                        "flex";
+
+                }
+            );
+
+
+        /* Menu openen/sluiten */
+
+        menuButton.addEventListener(
+            "click",
+            function () {
+
+                document
+                    .querySelectorAll(
+                        ".rider-menu"
+                    )
+                    .forEach(function (otherMenu) {
+
+                        if (otherMenu !== menu) {
+
+                            otherMenu.classList.remove(
+                                "show"
+                            );
+
+                        }
+
+                    });
+
+
+                menu.classList.toggle(
+                    "show"
+                );
+
+            }
+        );
+
+
+        riderElement.appendChild(
+            riderText
+        );
+
+        riderElement.appendChild(
+            riderPriceElement
+        );
+
+        riderElement.appendChild(
+            menuButton
+        );
+
+        riderElement.appendChild(
+            menu
+        );
+
+
+        document.body.insertBefore(
+            riderElement,
+            addButton
+        );
+
     });
+
 }
 
-addButton.addEventListener("click", function () {
-    editingRider = null;
 
-    riderName.value = "";
-    riderPrice.value = "";
+/* =========================================
+   NIEUWE RENNENR
+========================================= */
 
-    selectedStars = 0;
-    updateStarButtons();
-
-    modal.style.display = "flex";
-});
-
-cancelButton.addEventListener("click", function () {
-    editingRider = null;
-    modal.style.display = "none";
-});
-
-saveButton.addEventListener("click", function () {
-    const name = riderName.value.trim();
-    const price = riderPrice.value;
-
-if (name === "") {
-    alert("Vul de naam in.");
-    return;
-}
-
-    if (editingRider !== null) {
-        editingRider.name = name;
-        editingRider.price = price;
-        editingRider.stars = selectedStars;
+addButton.addEventListener(
+    "click",
+    function () {
 
         editingRider = null;
-    } else {
-        const rider = {
-            name: name,
-            price: price,
-            stars: selectedStars
-        };
 
-        riders.push(rider);
+        riderName.value = "";
+
+        riderPrice.value = "";
+
+        setSelectedCategories([]);
+
+        selectedStars = 0;
+
+        updateStarButtons();
+
+        modal.style.display = "flex";
+
     }
+);
 
-    localStorage.setItem("myPelotonRiders", JSON.stringify(riders));
 
-    riderName.value = "";
-    riderPrice.value = "";
+/* =========================================
+   ANNULEREN
+========================================= */
 
-    selectedStars = 0;
-    updateStarButtons();
+cancelButton.addEventListener(
+    "click",
+    function () {
 
-    modal.style.display = "none";
+        editingRider = null;
 
-    displayRiders();
-});
+        modal.style.display = "none";
 
-searchInput.addEventListener("input", function () {
-    displayRiders();
-});
-
-starFilterButton.addEventListener("click", function () {
-    starFilter++;
-
-    if (starFilter > 3) {
-        starFilter = 0;
     }
+);
 
-    if (starFilter === 0) {
-        starFilterButton.textContent = "⭐ Alle sterren";
-    } else {
-        starFilterButton.textContent = "⭐".repeat(starFilter) + " Alleen " + starFilter + " ster";
-        
-        if (starFilter > 1) {
-            starFilterButton.textContent = "⭐".repeat(starFilter) + " Alleen " + starFilter + " sterren";
+
+/* =========================================
+   OPSLAAN
+========================================= */
+
+saveButton.addEventListener(
+    "click",
+    function () {
+
+        const name =
+            riderName.value.trim();
+
+        const price =
+            riderPrice.value;
+
+        const categories =
+            getSelectedCategories();
+
+
+        if (name === "") {
+
+            alert(
+                "Vul de naam in."
+            );
+
+            return;
+
         }
+
+
+        if (editingRider !== null) {
+
+            editingRider.name =
+                name;
+
+            editingRider.price =
+                price;
+
+            editingRider.categories =
+                categories;
+
+            editingRider.stars =
+                selectedStars;
+
+
+            editingRider = null;
+
+        } else {
+
+            const rider = {
+
+                name: name,
+
+                price: price,
+
+                categories: categories,
+
+                stars: selectedStars
+
+            };
+
+
+            riders.push(rider);
+
+        }
+
+
+        localStorage.setItem(
+            "myPelotonRiders",
+            JSON.stringify(riders)
+        );
+
+
+        riderName.value = "";
+
+        riderPrice.value = "";
+
+        setSelectedCategories([]);
+
+        selectedStars = 0;
+
+        updateStarButtons();
+
+
+        modal.style.display =
+            "none";
+
+
+        displayRiders();
+
     }
+);
 
-    displayRiders();
-});
 
-sortPriceButton.addEventListener("click", function () {
-    sortPriceAscending = !sortPriceAscending;
+/* =========================================
+   ZOEKEN
+========================================= */
 
-    if (sortPriceAscending) {
-        sortPriceButton.textContent = "💶 Prijs: laag → hoog";
-    } else {
-        sortPriceButton.textContent = "💶 Prijs: hoog → laag";
+searchInput.addEventListener(
+    "input",
+    function () {
+
+        displayRiders();
+
     }
+);
 
-    displayRiders();
-});
 
-backupButton.addEventListener("click", function () {
-    const backup = JSON.stringify(riders, null, 2);
+/* =========================================
+   CATEGORIE FILTER
+========================================= */
 
-    const blob = new Blob([backup], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
+categoryFilter.addEventListener(
+    "change",
+    function () {
 
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "MyPeloton-backup.json";
-    link.click();
+        displayRiders();
 
-    URL.revokeObjectURL(url);
-});
-
-restoreButton.addEventListener("click", function () {
-    restoreInput.click();
-});
-
-restoreInput.addEventListener("change", function () {
-    const file = restoreInput.files[0];
-
-    if (!file) {
-        return;
     }
+);
 
-    const reader = new FileReader();
 
-    reader.onload = function (event) {
-        try {
-            riders = JSON.parse(event.target.result);
+/* =========================================
+   STERREN FILTER
+========================================= */
 
-            riders = riders.map(function (rider) {
-                if (typeof rider.stars === "number") {
-                    return rider;
+starFilter.addEventListener(
+    "change",
+    function () {
+
+        displayRiders();
+
+    }
+);
+
+
+/* =========================================
+   PRIJS SORTERING
+========================================= */
+
+priceSort.addEventListener(
+    "change",
+    function () {
+
+        displayRiders();
+
+    }
+);
+
+
+/* =========================================
+   BACKUP MAKEN
+========================================= */
+
+backupButton.addEventListener(
+    "click",
+    function () {
+
+        const backup =
+            JSON.stringify(
+                riders,
+                null,
+                2
+            );
+
+
+        const blob =
+            new Blob(
+                [backup],
+                {
+                    type: "application/json"
+                }
+            );
+
+
+        const url =
+            URL.createObjectURL(blob);
+
+
+        const link =
+            document.createElement("a");
+
+        link.href = url;
+
+        link.download =
+            "MyPeloton-backup.json";
+
+        link.click();
+
+
+        URL.revokeObjectURL(url);
+
+    }
+);
+
+
+/* =========================================
+   BACKUP TERUGZETTEN
+========================================= */
+
+restoreButton.addEventListener(
+    "click",
+    function () {
+
+        restoreInput.click();
+
+    }
+);
+
+
+restoreInput.addEventListener(
+    "change",
+    function () {
+
+        const file =
+            restoreInput.files[0];
+
+
+        if (!file) {
+            return;
+        }
+
+
+        const reader =
+            new FileReader();
+
+
+        reader.onload =
+            function (event) {
+
+                try {
+
+                    riders =
+                        JSON.parse(
+                            event.target.result
+                        );
+
+
+                    riders =
+                        riders.map(
+                            function (rider) {
+
+                                let categories = [];
+
+
+                                if (
+                                    Array.isArray(
+                                        rider.categories
+                                    )
+                                ) {
+
+                                    categories =
+                                        rider.categories;
+
+                                } else if (
+                                    rider.category
+                                ) {
+
+                                    categories = [
+                                        rider.category
+                                    ];
+
+                                }
+
+
+                                return {
+
+                                    ...rider,
+
+                                    stars:
+                                        typeof rider.stars === "number"
+                                            ? rider.stars
+                                            : rider.interesting
+                                            ? 1
+                                            : 0,
+
+                                    categories:
+                                        categories
+
+                                };
+
+                            }
+                        );
+
+
+                    localStorage.setItem(
+                        "myPelotonRiders",
+                        JSON.stringify(riders)
+                    );
+
+
+                    displayRiders();
+
+
+                    alert(
+                        "Backup succesvol teruggezet!"
+                    );
+
+
+                } catch (error) {
+
+                    alert(
+                        "Dit is geen geldige MyPeloton-backup."
+                    );
+
                 }
 
-                return {
-                    ...rider,
-                    stars: rider.interesting ? 1 : 0
-                };
-            });
 
-            localStorage.setItem("myPelotonRiders", JSON.stringify(riders));
+                restoreInput.value = "";
 
-            displayRiders();
+            };
 
-            alert("Backup succesvol teruggezet!");
-        } catch (error) {
-            alert("Dit is geen geldige MyPeloton-backup.");
-        }
 
-        restoreInput.value = "";
-    };
+        reader.readAsText(file);
 
-    reader.readAsText(file);
-});
+    }
+);
+
+
+/* =========================================
+   START
+========================================= */
 
 displayRiders();
