@@ -3,54 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>MyPeloton</title>
+
     <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
 </head>
 
 <body>
 
 <h1>👑 MyPeloton</h1>
+
 <p class="tagline">My peloton, my kingdom.</p>
 
-    <h2>Mijn renners</h2>
-    <p id="emptyMessage" style="display: none;">
+<h2>Mijn renners</h2>
+
+<p id="emptyMessage" style="display: none;">
     Nog geen renners toegevoegd.
 </p>
-<input type="text" id="searchInput" placeholder="Zoek een renner...">
+
+<input
+    type="text"
+    id="searchInput"
+    placeholder="Zoek een renner..."
+>
 
 <div class="filter-buttons">
-<button id="starFilterButton">⭐ Alle sterren</button>
-    <button id="sortPriceButton">💶 Prijs: laag → hoog</button>
+
+    <select id="categoryFilter">
+        <option value="">🏷️ Alle categorieën</option>
+        <option value="oneday">Oneday</option>
+        <option value="GC">GC</option>
+        <option value="TT">TT</option>
+        <option value="sprint">Sprint</option>
+        <option value="climber">Climber</option>
+        <option value="hills">Hills</option>
+    </select>
+
+    <select id="starFilter">
+        <option value="0">⭐ Alle sterren</option>
+        <option value="1">⭐ 1 ster</option>
+        <option value="2">⭐⭐ 2 sterren</option>
+        <option value="3">⭐⭐⭐ 3 sterren</option>
+    </select>
+
+    <select id="priceSort">
+        <option value="none">💶 Geen sortering</option>
+        <option value="low">💶 Prijs: laag → hoog</option>
+        <option value="high">💶 Prijs: hoog → laag</option>
+    </select>
+
 </div>
+
 <button id="addButton">＋ Nieuwe renner</button>
+
 <button id="backupButton">💾 Backup maken</button>
+
 <button id="restoreButton">📂 Backup terugzetten</button>
-<input type="file" id="restoreInput" accept=".json" style="display: none;">
+
+<input
+    type="file"
+    id="restoreInput"
+    accept=".json"
+    style="display: none;"
+>
+
 <div id="addRiderModal" class="modal">
+
     <div class="modal-content">
+
         <h2>Nieuwe renner</h2>
 
         <label>Naam</label>
-        <input type="text" id="riderName" placeholder="Naam van de renner">
+
+        <input
+            type="text"
+            id="riderName"
+            placeholder="Naam van de renner"
+        >
 
         <label>Prijs</label>
-        <input type="number" id="riderPrice" placeholder="Prijs">
 
-<label class="interest">Sterren</label>
+        <input
+            type="number"
+            id="riderPrice"
+            placeholder="Prijs"
+        >
 
-<div class="star-selector" id="starSelector">
-    <button type="button" data-stars="1">★</button>
-    <button type="button" data-stars="2">★</button>
-    <button type="button" data-stars="3">★</button>
-</div>
+        <label>Categorieën</label>
+
+        <div class="category-selector" id="categorySelector">
+
+            <label class="category-option">
+                <input type="checkbox" value="oneday">
+                <span>Oneday</span>
+            </label>
+
+            <label class="category-option">
+                <input type="checkbox" value="GC">
+                <span>GC</span>
+            </label>
+
+            <label class="category-option">
+                <input type="checkbox" value="TT">
+                <span>TT</span>
+            </label>
+
+            <label class="category-option">
+                <input type="checkbox" value="sprint">
+                <span>Sprint</span>
+            </label>
+
+            <label class="category-option">
+                <input type="checkbox" value="climber">
+                <span>Climber</span>
+            </label>
+
+            <label class="category-option">
+                <input type="checkbox" value="hills">
+                <span>Hills</span>
+            </label>
+
+        </div>
+
+        <label class="interest">Sterren</label>
+
+        <div class="star-selector" id="starSelector">
+
+            <button type="button" data-stars="1">★</button>
+
+            <button type="button" data-stars="2">★</button>
+
+            <button type="button" data-stars="3">★</button>
+
+        </div>
 
         <div class="modal-buttons">
-            <button id="cancelButton">Annuleren</button>
-            <button id="saveButton">Opslaan</button>
+
+            <button id="cancelButton">
+                Annuleren
+            </button>
+
+            <button id="saveButton">
+                Opslaan
+            </button>
+
         </div>
+
     </div>
+
 </div>
-<script src="script.js?v=2"></script>
+
+<script src="script.js"></script>
+
 </body>
 </html>
