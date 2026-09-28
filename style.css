@@ -55,7 +55,10 @@ button {
     cursor: pointer;
     font-weight: 600;
     box-shadow: 0 4px 15px rgba(255, 79, 163, 0.18);
-    transition: background-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    transition:
+        background-color 0.2s,
+        box-shadow 0.2s,
+        transform 0.2s;
 }
 
 button:hover {
@@ -64,7 +67,10 @@ button:hover {
     transform: translateY(-1px);
 }
 
-/* Zoekbalk */
+
+/* =========================================
+   ZOEKBALK
+========================================= */
 
 #searchInput {
     width: 100%;
@@ -87,7 +93,10 @@ button:hover {
     border-color: #ff4fa3;
 }
 
-/* Filterknoppen */
+
+/* =========================================
+   FILTERS
+========================================= */
 
 .filter-buttons {
     display: flex;
@@ -95,20 +104,34 @@ button:hover {
     margin: 15px 0 25px 0;
 }
 
-.filter-buttons button {
+.filter-buttons select {
     flex: 1;
     margin: 0;
     padding: 12px 10px;
     font-size: 15px;
+    background-color: #ff4fa3;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 79, 163, 0.18);
 }
 
-@media (max-width: 600px) {
-    .filter-buttons {
-        flex-direction: column;
-    }
+.filter-buttons select:hover {
+    background-color: #ff78b8;
+    box-shadow: 0 6px 20px rgba(255, 79, 163, 0.3);
 }
 
-/* Renners */
+.filter-buttons select:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255, 79, 163, 0.4);
+}
+
+
+/* =========================================
+   RENNERS
+========================================= */
 
 .rider {
     display: flex;
@@ -121,7 +144,9 @@ button:hover {
     font-size: 18px;
     min-height: 28px;
     border: 1px solid #2a2a2a;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
     position: relative;
 }
 
@@ -130,17 +155,24 @@ button:hover {
     box-shadow: 0 0 12px rgba(255, 79, 163, 0.12);
 }
 
-/* Informatie binnen een renner */
+
+/* =========================================
+   INFORMATIE BINNEN RENNENR
+========================================= */
 
 .rider-info {
-    display: flex;
+    display: grid;
+    grid-template-columns: 75px 180px minmax(0, 1fr);
     align-items: center;
     gap: 10px;
     flex: 1;
     min-width: 0;
 }
 
-/* Sterren naast de renner */
+
+/* =========================================
+   STERREN
+========================================= */
 
 .rider-stars {
     display: flex;
@@ -148,7 +180,6 @@ button:hover {
     gap: 2px;
     width: 75px;
     min-width: 75px;
-    flex-shrink: 0;
     font-size: 17px;
     line-height: 1;
 }
@@ -162,10 +193,12 @@ button:hover {
     color: #555555;
 }
 
-/* Naam */
+
+/* =========================================
+   NAAM
+========================================= */
 
 .rider-name {
-    flex: 1;
     min-width: 0;
     font-weight: 600;
     color: #ffffff;
@@ -174,16 +207,50 @@ button:hover {
     white-space: nowrap;
 }
 
-/* Prijs */
+
+/* =========================================
+   CATEGORIEËN
+========================================= */
+
+.rider-categories {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px;
+    min-width: 0;
+}
+
+.rider-category {
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 4px 7px;
+    background-color: #242424;
+    color: #bbbbbb;
+    border: 1px solid #333333;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   PRIJS
+========================================= */
 
 .rider-price {
     margin-left: auto;
+    margin-right: 10px;
     color: #ff4fa3;
     font-weight: 600;
     white-space: nowrap;
 }
 
-/* Menu knop */
+
+/* =========================================
+   MENU KNOP
+========================================= */
 
 .rider .menu-button {
     margin: 0 0 0 10px;
@@ -202,7 +269,10 @@ button:hover {
     transform: none;
 }
 
-/* Rennermenu */
+
+/* =========================================
+   RENNERMENU
+========================================= */
 
 .rider-menu {
     display: none;
@@ -240,7 +310,58 @@ button:hover {
     transform: none;
 }
 
-/* Sterren kiezen in het venster */
+
+/* =========================================
+   CATEGORIEËN KIEZEN
+========================================= */
+
+.category-selector {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.category-option {
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+    margin: 0 !important;
+    padding: 10px;
+    background-color: #242424;
+    border: 1px solid #333333;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #bbbbbb;
+    transition:
+        background-color 0.2s,
+        border-color 0.2s,
+        color 0.2s;
+}
+
+.category-option:hover {
+    background-color: #2d2d2d;
+    border-color: #ff4fa3;
+    color: white;
+}
+
+.category-option input {
+    width: 17px;
+    height: 17px;
+    accent-color: #ff4fa3;
+    cursor: pointer;
+}
+
+.category-option:has(input:checked) {
+    background-color: rgba(255, 79, 163, 0.12);
+    border-color: #ff4fa3;
+    color: #ff4fa3;
+}
+
+
+/* =========================================
+   STERREN KIEZEN
+========================================= */
 
 .star-selector {
     display: flex;
@@ -279,7 +400,10 @@ button:hover {
     box-shadow: 0 0 10px rgba(255, 79, 163, 0.15);
 }
 
-/* Modal */
+
+/* =========================================
+   MODAL
+========================================= */
 
 .modal {
     display: none;
@@ -299,6 +423,8 @@ button:hover {
     box-sizing: border-box;
     border: 1px solid #333333;
     box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6);
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 .modal-content h2 {
@@ -327,7 +453,9 @@ button:hover {
     background-color: #111111;
     color: white;
     font-size: 16px;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
 }
 
 .modal-content input[type="text"]:focus,
@@ -347,6 +475,11 @@ button:hover {
     width: 18px;
     height: 18px;
 }
+
+
+/* =========================================
+   MODAL KNOPPEN
+========================================= */
 
 .modal-buttons {
     display: flex;
@@ -370,7 +503,10 @@ button:hover {
     color: white;
 }
 
-/* Backup knoppen */
+
+/* =========================================
+   BACKUP KNOPPEN
+========================================= */
 
 #backupButton,
 #restoreButton {
@@ -394,9 +530,13 @@ button:hover {
     transform: none;
 }
 
-/* Mobiele weergave */
+
+/* =========================================
+   MOBIELE WEERGAVE
+========================================= */
 
 @media (max-width: 600px) {
+
     body {
         padding: 15px;
     }
@@ -405,8 +545,25 @@ button:hover {
         font-size: 38px;
     }
 
+    .filter-buttons {
+        flex-direction: column;
+    }
+
+    .filter-buttons select {
+        width: 100%;
+    }
+
     .rider {
         padding: 12px;
+    }
+
+    .rider-info {
+        grid-template-columns:
+            68px
+            minmax(0, 1fr)
+            minmax(78px, auto);
+
+        gap: 7px;
     }
 
     .rider-stars {
@@ -415,15 +572,25 @@ button:hover {
         font-size: 16px;
     }
 
-    .rider-info {
-        gap: 7px;
-    }
-
     .rider-name {
         font-size: 16px;
+    }
+
+    .rider-categories {
+        gap: 4px;
+    }
+
+    .rider-category {
+        font-size: 10px;
+        padding: 4px 5px;
     }
 
     .rider-price {
         font-size: 16px;
     }
+
+    .category-selector {
+        grid-template-columns: 1fr 1fr;
+    }
+
 }
